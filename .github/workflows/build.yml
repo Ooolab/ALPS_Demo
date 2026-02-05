@@ -34,8 +34,8 @@ jobs:
         #- { os: ubuntu-24.04, target: "", comp_pack: "clang-16", c_compiler: clang, cxx_compiler: clang++, c_version: 16, py_version: "3.12", boost_version: 86}
         #- { os: ubuntu-24.04, target: "", comp_pack: "clang-17", c_compiler: clang, cxx_compiler: clang++, c_version: 17, py_version: "3.12", boost_version: 86}
         #- { os: ubuntu-24.04, target: "", comp_pack: "clang-18", c_compiler: clang, cxx_compiler: clang++, c_version: 18, py_version: "3.12", boost_version: 86}
-        - { os: ubuntu-24.04, target: "", comp_pack: "clang-18", c_compiler: clang, cxx_compiler: clang++, c_version: 18, py_version: "3.12", boost_version: 87}
-        - { os: ubuntu-24.04, target: "", comp_pack: "clang-18", c_compiler: clang, cxx_compiler: clang++, c_version: 18, py_version: "3.12", boost_version: 88}
+        #- { os: ubuntu-24.04, target: "", comp_pack: "clang-18", c_compiler: clang, cxx_compiler: clang++, c_version: 18, py_version: "3.12", boost_version: 87}
+        #- { os: ubuntu-24.04, target: "", comp_pack: "clang-18", c_compiler: clang, cxx_compiler: clang++, c_version: 18, py_version: "3.12", boost_version: 88}
         - { os: ubuntu-24.04, target: "", comp_pack: "clang-18", c_compiler: clang, cxx_compiler: clang++, c_version: 18, py_version: "3.12", boost_version: 89}
 
     steps:
@@ -116,8 +116,8 @@ jobs:
                 -DBoost_ROOT_DIR=`pwd`/boost_1_${{ matrix.plat.boost_version }}_0 -DCMAKE_CXX_FLAGS="-stdlib=libc++ -std=c++14 -fpermissive -DBOOST_NO_AUTO_PTR -DBOOST_FILESYSTEM_NO_CXX20_ATOMIC_REF -DBOOST_TIMER_ENABLE_DEPRECATED" -DPython_ROOT_DIR=`/opt/homebrew/bin/python${{ matrix.plat.py_version }} -c "import sys, os; print(os.path.dirname(os.path.dirname(str(sys.executable))));"` \
                 -DCMAKE_Fortran_COMPILER=gfortran
 
-          cmake --build build -j $(sysctl -n hw.ncpu)
-          cmake --build build -t test
+          cmake --build build -j 2
+          cmake --build build -j 2 -t test
         
       - name: Run tests
         run: cd build && ctest --output-on-failure --rerun-failed
